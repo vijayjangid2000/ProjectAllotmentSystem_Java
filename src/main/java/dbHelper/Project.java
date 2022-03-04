@@ -15,7 +15,6 @@ public class Project {
     private int managerId;
     private int minimumExperience;
     private int numberOfExperienced;
-    private int billingStatus;
     private int totalMilestones;
     private int domainExpert;
     private int clientId;
@@ -25,6 +24,33 @@ public class Project {
     private boolean isActive;
 
 
+    public Project(String title, String name, String description, String deadLine,
+                   String finishedOn, boolean isBeforeDeadline,
+                   int numberOfEmployeeRequired, int numberOfEmployeeWorking,
+                   int managerId, int minimumExperience, int numberOfExperienced,
+                   int totalMilestones, int domainExpert,
+                   int clientId, String lastModifiedBy, String lastModifiedOn,
+                   String createdBy, String createdOn, boolean isActive) {
+        this.title = title;
+        this.name = name;
+        this.description = description;
+        this.deadLine = deadLine;
+        this.finishedOn = finishedOn;
+        this.isBeforeDeadline = isBeforeDeadline;
+        this.createdOn = createdOn;
+        this.numberOfEmployeeRequired = numberOfEmployeeRequired;
+        this.numberOfEmployeeWorking = numberOfEmployeeWorking;
+        this.managerId = managerId;
+        this.minimumExperience = minimumExperience;
+        this.numberOfExperienced = numberOfExperienced;
+        this.totalMilestones = totalMilestones;
+        this.domainExpert = domainExpert;
+        this.clientId = clientId;
+        this.lastModifiedBy = lastModifiedBy;
+        this.lastModifiedOn = lastModifiedOn;
+        this.createdBy = createdBy;
+        this.isActive = isActive;
+    }
 
     public int getUniqueId() {
         return uniqueId;
@@ -130,13 +156,6 @@ public class Project {
         this.numberOfExperienced = numberOfExperienced;
     }
 
-    public int getBillingStatus() {
-        return billingStatus;
-    }
-
-    public void setBillingStatus(int billingStatus) {
-        this.billingStatus = billingStatus;
-    }
 
     public int getTotalMilestones() {
         return totalMilestones;

@@ -14,24 +14,24 @@ public class DbQueries {
     static final String TABLE_NAME_CLIENT = "Client";
     static final String TABLE_NAME_AUTHENTICATE = "Authenticate";
 
-    static final String CREATE_DATABASE = "CREATE DATABASE " + DB_NAME  + ";";
+    static final String CREATE_DATABASE = "CREATE DATABASE " + DB_NAME + ";";
 
     static final String CREATE_TABLE_MILESTONE = """
             CREATE TABLE Milestone (
               uniqueId int primary key,\s
-              mileNumber int not null,\s
-              projectId int NOT NULL,\s
-              title varchar(150) NOT NULL,\s
-              description varchar(1000) NOT NULL,\s
-              timeInHours int NOT NULL,\s
-              status int NOT NULL,\s
-              assignedToEmpId int NOT NULL,\s
-              completedByEmpId int NOT NULL,\s
-              lastModifiedBy varchar(255) NOT NULL,\s
-              lastModifiedOn DATETIME NOT NULL,\s
-              createdBy varchar(255) NOT NULL,\s
-              createdOn DATETIME NOT NULL,\s
-              isActive boolean NOT NULL
+              mileNumber int ,\s
+              projectId int ,\s
+              title varchar(150) ,\s
+              description varchar(1000) ,\s
+              timeInHours int ,\s
+              status int ,\s
+              assignedToEmpId int ,\s
+              completedByEmpId int ,\s
+              lastModifiedBy varchar(255) ,\s
+              lastModifiedOn DATETIME ,\s
+              createdBy varchar(255) ,\s
+              createdOn DATETIME ,\s
+              isActive boolean 
             );
             """;
 
@@ -39,56 +39,56 @@ public class DbQueries {
     static final String CREATE_TABLE_MEMBER = """
             CREATE TABLE Member (
                     uniqueId int primary key,\s
-                    projectId int NOT NULL,\s
-                    employeeId int NOT NULL,
-                     employeeRole int NOT NULL,\s
-                    isActive boolean NOT NULL
+                    projectId int ,\s
+                    employeeId int ,
+                     employeeRole int ,\s
+                    isActive boolean 
                   );
                   """;
 
     static final String CREATE_TABLE_PROJECT = """
             CREATE TABLE Project (
               uniqueId int primary key,\s
-              title varchar(255) NOT NULL,\s
-              name varchar(255) NOT NULL,\s
-              description varchar(255) NOT NULL,\s
-              deadline DATETIME NOT NULL,\s
-              finishedOn DATETIME NOT NULL,\s
-              beforeDeadline DATETIME NOT NULL,\s
-              numOfEmpRequired int NOT null,\s
-              numOfEmpWorking int not null,\s
-              managerId int not null,\s
-              minimumExperience int not null,\s
-              numOfMinExp int not null,
-              totalMilestones int not null,\s
-              domainExpertId int not null,\s
-              clientId int not null,\s
-              lastModifiedBy varchar(255) NOT NULL,\s
-              lastModifiedOn DATETIME NOT NULL,\s
-              createdBy varchar(255) NOT NULL,\s
-              createdOn DATETIME NOT NULL,\s
-              isActive boolean NOT NULL
+              title varchar(255) ,\s
+              name varchar(255) ,\s
+              description varchar(255) ,\s
+              deadline DATETIME ,\s
+              finishedOn DATETIME ,\s
+              beforeDeadline DATETIME ,\s
+              numOfEmpRequired int ,\s
+              numOfEmpWorking int ,\s
+              managerId int ,\s
+              minimumExperience int ,\s
+              numOfMinExp int ,
+              totalMilestones int ,\s
+              domainExpertId int ,\s
+              clientId int ,\s
+              lastModifiedBy varchar(255) ,\s
+              lastModifiedOn DATETIME ,\s
+              createdBy varchar(255) ,\s
+              createdOn DATETIME ,\s
+              isActive boolean 
             );
             """;
 
     static final String CREATE_TABLE_EMPLOYEE = """
             CREATE TABLE Employee (
               uniqueId int primary key,\s
-              name varchar(255) not null,\s
-              joiningDate DATETIME not null,\s
-              email varchar(100) not null,\s
-              mobile varchar(20) not null,\s
-              dob DATETIME not null,\s
-              managerId int not null,\s
-              assignedProject int not null,\s
-              rankInCompany int not null,\s
-              previousExperience int not null,\s
-              domainExpertise int not null,\s
-              lastModifiedBy varchar(255) NOT NULL,\s
-              lastModifiedOn DATETIME NOT NULL,\s
-              createdBy varchar(255) NOT NULL,\s
-              createdOn DATETIME NOT NULL,\s
-              isActive boolean NOT NULL
+              name varchar(255) ,\s
+              joiningDate DATETIME ,\s
+              email varchar(100) ,\s
+              mobile varchar(20) ,\s
+              dob DATETIME ,\s
+              managerId int ,\s
+              assignedProject int ,\s
+              rankInCompany int ,\s
+              previousExperience int ,\s
+              domainExpertise int ,\s
+              lastModifiedBy varchar(255) ,\s
+              lastModifiedOn DATETIME ,\s
+              createdBy varchar(255) ,\s
+              createdOn DATETIME ,\s
+              isActive boolean 
             );
             """;
 
@@ -96,37 +96,54 @@ public class DbQueries {
     static final String CREATE_TABLE_CLIENT = """
                 CREATE TABLE Client(
                 uniqueId int primary key,
-                firstName varchar(255) not null,
-                lastName varchar(255) not null,
-                companyName varchar(255) not null,
-                location varchar(255) not null,
-                companyEmail varchar(255) not null,
-                mobile varchar(255) not null,
-                email varchar(20) not null,
-                lastModifiedBy varchar(255) NOT NULL,
-                lastModifiedOn DATETIME NOT NULL,
-                createdBy varchar(255) NOT NULL,
-                createdOn DATETIME NOT NULL,
-                isActive boolean NOT NULL);\040
+                firstName varchar(255) ,
+                lastName varchar(255) ,
+                companyName varchar(255) ,
+                location varchar(255) ,
+                companyEmail varchar(255) ,
+                mobile varchar(255) ,
+                email varchar(20) ,
+                lastModifiedBy varchar(255) ,
+                lastModifiedOn DATETIME ,
+                createdBy varchar(255) ,
+                createdOn DATETIME ,
+                isActive boolean );\040
             """;
 
     static final String CREATE_TABLE_AUTHENTICATE = """
             CREATE TABLE Authenticate (
               uniqueId int primary key,\s
-              userEmail varchar(255) not null,\s
-              userPassword varchar(255) not null,\s
-              lastModifiedBy varchar(255) NOT NULL,\s
-              lastModifiedOn DATETIME NOT NULL,\s
-              createdBy varchar(255) NOT NULL,\s
-              createdOn DATETIME NOT NULL,\s
-              isActive boolean NOT NULL
+              userEmail varchar(255) ,\s
+              userPassword varchar(255) ,\s
+              lastModifiedBy varchar(255) ,\s
+              lastModifiedOn DATETIME ,\s
+              createdBy varchar(255) ,\s
+              createdOn DATETIME ,\s
+              isActive boolean
             );
             """;
 
-    static final String INSERT_INTO_PROJECT = "";
-    static final String INSERT_INTO_AUTHENTICATE = "";
-    static final String INSERT_INTO_EMPLOYEE = "";
-    static final String INSERT_INTO_CLIENT = "";
-    static final String INSERT_INTO_MEMBER  = " ";
-    static final String INSERT_INTO_MILESTONE = "";
+    static final String INSERT_INTO_PROJECT = "INSERT INTO project (title, name, description, deadline , " +
+            "finishedOn, beforeDeadline, numOfEmpRequired, numOfEmpWorking  , managerId , " +
+            "minimumExperience , numOfMinExp , totalMilestones , domainExpertId , clientId , " +
+            "lastModifiedBy , lastModifiedOn ,createdBy ,createdOn ,isActive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
+    static final String INSERT_INTO_AUTHENTICATE = "INSERT INTO authenticate  (userEmail , userPassword , " +
+            "lastModifiedBy , lastModifiedOn , createdBy , createdOn , isActive) VALUES (?,?,?,?,?,?,?);";
+
+    static final String INSERT_INTO_EMPLOYEE = "INSERT INTO employee  (name , joiningDate , email , " +
+            "mobile , dob , managerId ,assignedProject ,rankInCompany ,previousExperience ,domainExpertise ," +
+            "lastModifiedBy , lastModifiedOn , createdBy , createdOn , isActive)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
+    static final String INSERT_INTO_CLIENT = "INSERT INTO client  (firstName , lastName , companyName , " +
+            "location , companyEmail , mobile , email , lastModifiedBy , lastModifiedOn , createdBy , " +
+            "createdOn , isActive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
+
+    static final String INSERT_INTO_MEMBER = " INSERT INTO member  (uniqueId ,PK projectId ,employeeId ," +
+            "employeeRole ,isActive) VALUES (?,?,?,?,?);";
+
+    static final String INSERT_INTO_MILESTONE = "INSERT INTO milestone  (mileNumber ,projectId ,title , " +
+            "description , timeInHours ,status ,assignedToEmpId ,completedByEmpId ,lastModifiedBy , " +
+            "lastModifiedOn , createdBy , createdOn , isActive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
 }

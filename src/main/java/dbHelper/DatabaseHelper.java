@@ -1,14 +1,46 @@
 package dbHelper;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class DatabaseHelper {
 
-    public static void main(String[] args) {
+    static DatabaseHelper databaseHelper;
+    private static Connection connection;
 
+    public DatabaseHelper() {
+        try {
+            connection = DriverManager.getConnection(DbQueries.DB_URL,
+                    DbQueries.DB_USER, DbQueries.DB_PASSWORD);
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("USE " + DbQueries.DB_NAME);
+            statement.close();
+            System.out.println("DB Connected.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        Date date = new Date(System.currentTimeMillis());
+
+        Project project = new Project("apple", "prjectName", "description", date.toString(), date.toString(),
+                true, 5, 5,
+                1, 4, 1, 1, 1,
+                1, "vijay", date.toString(), "vijay", date.toString(), true
+        );
+        try {
+            connection = DriverManager.getConnection(DbQueries.DB_URL,
+                    DbQueries.DB_USER, DbQueries.DB_PASSWORD);
+            Statement statement = connection.createStatement();
+            statement.executeUpdate("USE " + DbQueries.DB_NAME);
+            statement.close();
+            System.out.println("DB Connected.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        addNewRowToProjectTable(project);
     }
 
     public static void createAllTablesAndDb() {
@@ -36,76 +68,172 @@ public class DatabaseHelper {
     }
 
     public static void addNewRowToProjectTable(Project project) {
-        String insertProject = "Insert into project values ( " +
-                project.getUniqueId() + " ,  " + project.getTitle() + " ,  " +
-                project.getDescription() + " ,  " + project.getDeadLine() + " ,  " +
-                project.getFinishedOn() + " ,  " + project.isBeforeDeadline() + " ,  " +
-                project.getNumberOfEmployeeRequired() + " ,  " + project.getNumberOfEmployeeWorking() + " ,  " +
-                project.getManagerId() + " ,  " + project.getMinimumExperience()
-                + " ,  " + project.getMinimumExperience() + " ,  " + project.getNumberOfExperienced()
-                + " ,  " + project.getTotalMilestones() + " ,  " + project.getDomainExpert() + " ,  " +
-                project.getClientId() + " ,  " + project.getLastModifiedBy() + " ,  " +
-                project.getLastModifiedOn() + " ,  " + project.getCreatedBy() + " ,  " +
-                project.getCreatedOn() + " ,  " + project.isActive() +
-                ");";
 
-        // pass into statement
+        String insertProject = DbQueries.INSERT_INTO_PROJECT;
+        try {
+            PreparedStatement preStmt = connection.prepareStatement(insertProject);
+            int c = 1;
+            preStmt.setString(c++, project.getTitle());
+            preStmt.setString(c++, project.getName());
+            preStmt.setString(c++, project.getDescription());
+
+            preStmt.setDate(c++, Date.valueOf(project.getDeadLine()));
+            preStmt.setDate(c++, Date.valueOf(project.getFinishedOn()));
+            preStmt.setBoolean(c++, project.isBeforeDeadline());
+
+            preStmt.setInt(c++, project.getNumberOfEmployeeRequired());
+            preStmt.setInt(c++, project.getNumberOfEmployeeWorking());
+            preStmt.setInt(c++, project.getManagerId());
+            preStmt.setInt(c++, project.getMinimumExperience());
+            preStmt.setInt(c++, project.getNumberOfExperienced());
+            preStmt.setInt(c++, project.getTotalMilestones());
+            preStmt.setInt(c++, project.getDomainExpert());
+            preStmt.setInt(c++, project.getClientId());
+
+            preStmt.setString(c++, project.getLastModifiedBy());
+            preStmt.setDate(c++, Date.valueOf(project.getLastModifiedOn()));
+            preStmt.setString(c++, project.getCreatedBy());
+            preStmt.setDate(c++, Date.valueOf(project.getCreatedOn()));
+            preStmt.setBoolean(c, project.isActive());
+
+            preStmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Query: " + insertProject);
     }
 
     public static void addNewRowToEmployeeTable(Employee employee) {
-        String insertEmployee = " Insert into employee values ( " +
-                employee.getUniqueId() + " ,  " + employee.getFirstName() + " ,  " +
-                employee.getLastName() + " ,  " + employee.getJoiningDate() + " ,  " +
-                employee.getEmail() + " ,  " + employee.getMobile() + " ,  " +
-                employee.getDateOfBirth() + " ,  " + employee.getManagerId() + " ,  " +
-                employee.getNoOfAssignedProject() + " ,  " + employee.getRankInCompany() + " ,  " +
-                employee.getPreviousExperienceInYears() + " ,  " + employee.getDomainExpertiseId() + " ,  " +
-                employee.getLastModifiedBy() + " ,  " + employee.getLastModifiedOn() + " ,  " +
-                employee.getCreatedBy() + " ,  " + employee.getCreatedBy()
-                + " ,  " + employee.isActive()
-                + ");";
+        String insertEmployee = DbQueries.INSERT_INTO_EMPLOYEE;
+        try {
+            PreparedStatement preStmt = connection.prepareStatement(insertEmployee);
+            int c = 1;
+
+            preStmt.setString(c++, employee.getName());
+
+            preStmt.setDate(c++, Date.valueOf(employee.getJoiningDate()));
+            preStmt.setString(c++, employee.getEmail());
+            preStmt.setString(c++, employee.getMobile());
+
+            preStmt.setDate(c++, Date.valueOf(employee.getDateOfBirth()));
+
+            preStmt.setInt(c++, employee.getManagerId());
+            preStmt.setInt(c++, employee.getNoOfAssignedProject());
+            preStmt.setInt(c++, employee.getRankInCompany());
+            preStmt.setInt(c++, employee.getPreviousExperienceInYears());
+            preStmt.setInt(c++, employee.getDomainExpertiseId());
+
+            preStmt.setString(c++, employee.getLastModifiedBy());
+            preStmt.setDate(c++, Date.valueOf(employee.getLastModifiedOn()));
+            preStmt.setString(c++, employee.getCreatedBy());
+            preStmt.setDate(c++, Date.valueOf(employee.getCreatedOn()));
+            preStmt.setBoolean(c, employee.isActive());
+
+            preStmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Query: " + insertEmployee);
     }
 
     public static void addNewRowToMemberTable(Member member) {
-        String insertMember = " Insert into member values ( " +
-                member.getUniqueId() + " ,  " + member.getProjectId() + " ,  " +
-                member.getEmployeeId() + " ,  " + member.getEmployeeRole() + " ,  " +
-                member.isActive()
-                + ");";
+
+        String insertMember = DbQueries.INSERT_INTO_MEMBER;
+        try {
+            PreparedStatement preStmt = connection.prepareStatement(insertMember);
+            int c = 1;
+            preStmt.setInt(c++, member.getProjectId());
+            preStmt.setInt(c++, member.getEmployeeId());
+            preStmt.setInt(c++, member.getEmployeeRole());
+
+            preStmt.setBoolean(c, member.isActive());
+            preStmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Query: " + insertMember);
+
     }
 
     public static void addNewRowToClientTable(Client client) {
-        String insertClient = " Insert into client values ( " +
-                client.getUniqueId() + " ,  " + client.getFirstName() + " ,  " +
-                client.getLastName() + " ,  " + client.getCompanyName() + " ,  " +
-                client.getLocation() + " ,  " + client.getCompanyEmail() + " ,  " +
-                client.getMobile() + " ,  " + client.getEmail() + " ,  " +
-                client.getLastModifiedBy() + " ,  " + client.getLastModifiedOn() + " ,  " +
-                client.getCreatedBy() + " ,  " + client.getCreatedOn() + " ,  " +
-                client.isActive()
-                + ");";
+
+        String insertAuthenticate = DbQueries.INSERT_INTO_CLIENT;
+        try {
+            PreparedStatement preStmt = connection.prepareStatement(insertAuthenticate);
+            int c = 1;
+            preStmt.setString(c++, client.getFirstName());
+            preStmt.setString(c++, client.getLastName());
+            preStmt.setString(c++, client.getCompanyName());
+            preStmt.setString(c++, client.getLocation());
+            preStmt.setString(c++, client.getCompanyEmail());
+            preStmt.setString(c++, client.getMobile());
+            preStmt.setString(c++, client.getEmail());
+
+            preStmt.setString(c++, client.getLastModifiedBy());
+            preStmt.setDate(c++, Date.valueOf(client.getLastModifiedOn()));
+            preStmt.setString(c++, client.getCreatedBy());
+            preStmt.setDate(c++, Date.valueOf(client.getCreatedOn()));
+            preStmt.setBoolean(c, client.isActive());
+            preStmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Query: " + insertAuthenticate);
     }
 
     public static void addNewRowToAuthenticateTable(Authenticate authenticate) {
-        String insertAuthenticate = " Insert into authenticate values ( " +
-                authenticate.getUniqueId() + " ,  " + authenticate.getUserEmail() + " ,  " +
-                authenticate.getPassword() + " ,  " + authenticate.getLastModifiedBy() + " ,  " +
-                authenticate.getLastModifiedOn() + " ,  " + authenticate.getCreatedBy() + " ,  " +
-                authenticate.getCreatedOn() + " ,  " + authenticate.isActive()
-                + ");";
+        String insertAuthenticate = DbQueries.CREATE_TABLE_AUTHENTICATE;
+        try {
+            PreparedStatement preStmt = connection.prepareStatement(insertAuthenticate);
+            int c = 1;
+            preStmt.setString(c++, authenticate.getUserEmail());
+            preStmt.setString(c++, authenticate.getPassword());
+
+            preStmt.setString(c++, authenticate.getLastModifiedBy());
+            preStmt.setDate(c++, Date.valueOf(authenticate.getLastModifiedOn()));
+            preStmt.setString(c++, authenticate.getCreatedBy());
+            preStmt.setDate(c++, Date.valueOf(authenticate.getCreatedOn()));
+            preStmt.setBoolean(c, authenticate.isActive());
+            preStmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Query: " + insertAuthenticate);
     }
 
     public static void addNewRowToMilestoneTable(Milestone milestone) {
-        String insertMilestone = " Insert into milestone values ( " +
-                milestone.getUniqueId() + " ,  " +
-                milestone.getMileNumber() + " ,  " + milestone.getProjectId() + " ,  " +
-                milestone.getTitle() + " ,  " + milestone.getDescription() + " ,  " +
-                milestone.getTimeInHours() + " ,  " + milestone.getStatus() + " ,  " +
-                milestone.getAssignedToEmployeeId() + " ,  " + milestone.getCompletedByEmployeeId() + " ,  " +
-                milestone.getLastModifiedBy() + " ,  " + milestone.getLastModifiedOn() + " ,  " +
-                milestone.getCreatedBy() + " ,  " + milestone.getCreatedOn() + " ,  " +
-                milestone.isActive()
-                + ");";
+        String insertMileStone = DbQueries.INSERT_INTO_MILESTONE;
+        try {
+            PreparedStatement preStmt = connection.prepareStatement(insertMileStone);
+            int c = 1;
+
+            preStmt.setInt(c++, milestone.getMileNumber());
+            preStmt.setInt(c++, milestone.getProjectId());
+            preStmt.setString(c++, milestone.getTitle());
+            preStmt.setString(c++, milestone.getDescription());
+            preStmt.setInt(c++, milestone.getTimeInHours());
+            preStmt.setInt(c++, milestone.getStatus());
+            preStmt.setInt(c++, milestone.getAssignedToEmployeeId());
+            preStmt.setInt(c++, milestone.getCompletedByEmployeeId());
+
+            preStmt.setString(c++, milestone.getLastModifiedBy());
+            preStmt.setDate(c++, Date.valueOf(milestone.getLastModifiedOn()));
+            preStmt.setString(c++, milestone.getCreatedBy());
+            preStmt.setDate(c++, Date.valueOf(milestone.getCreatedOn()));
+            preStmt.setBoolean(c, milestone.isActive());
+            preStmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Query: " + insertMileStone);
+
+
     }
 
 }

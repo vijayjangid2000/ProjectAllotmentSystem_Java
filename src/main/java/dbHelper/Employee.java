@@ -3,7 +3,7 @@ package dbHelper;
 public class Employee {
 
   private   int uniqueId;
-   private  String firstName;
+   private  String name;
    private  String lastName;
    private  String email;
    private  String mobile;
@@ -28,12 +28,12 @@ public class Employee {
         this.uniqueId = uniqueId;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getLastName() {
