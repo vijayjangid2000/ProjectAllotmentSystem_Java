@@ -2,23 +2,23 @@ package dbHelper;
 
 public class Employee {
 
-  private   int uniqueId;
-   private  String name;
-   private  String lastName;
-   private  String email;
-   private  String mobile;
-   private  String dateOfBirth;
+    private int uniqueId;
+    private String name;
+    private String lastName;
+    private String email;
+    private String mobile;
+    private String dateOfBirth;
     private String joiningDate;
- private    int managerId;
-  private   int noOfAssignedProject;
- private    int previousExperienceInYears;
+    private int managerId;
+    private int noOfAssignedProject;
+    private int previousExperienceInYears;
     private int domainExpertiseId;
-  private   int rankInCompany;
-   private String lastModifiedBy;
- private    String lastModifiedOn;
-   private  String createdBy;
- private    String createdOn;
- private    boolean isActive;
+    private int roleInCompany;
+    private String lastModifiedBy;
+    private String lastModifiedOn;
+    private String createdBy;
+    private String createdOn;
+    private boolean isActive;
 
     public int getUniqueId() {
         return uniqueId;
@@ -108,12 +108,12 @@ public class Employee {
         this.domainExpertiseId = domainExpertiseId;
     }
 
-    public int getRankInCompany() {
-        return rankInCompany;
+    public int getRoleInCompany() {
+        return roleInCompany;
     }
 
-    public void setRankInCompany(int rankInCompany) {
-        this.rankInCompany = rankInCompany;
+    public void setRoleInCompany(int roleInCompany) {
+        this.roleInCompany = roleInCompany;
     }
 
     public String getLastModifiedBy() {

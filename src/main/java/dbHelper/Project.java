@@ -23,6 +23,8 @@ public class Project {
     private String createdBy;
     private boolean isActive;
 
+    public Project() {
+    }
 
     public Project(String title, String name, String description, String deadLine,
                    String finishedOn, boolean isBeforeDeadline,

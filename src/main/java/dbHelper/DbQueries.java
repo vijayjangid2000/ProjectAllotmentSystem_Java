@@ -31,7 +31,7 @@ public class DbQueries {
               lastModifiedOn DATETIME ,\s
               createdBy varchar(255) ,\s
               createdOn DATETIME ,\s
-              isActive boolean 
+              isActive boolean\040
             );
             """;
 
@@ -42,7 +42,7 @@ public class DbQueries {
                     projectId int ,\s
                     employeeId int ,
                      employeeRole int ,\s
-                    isActive boolean 
+                    isActive boolean\040
                   );
                   """;
 
@@ -67,7 +67,7 @@ public class DbQueries {
               lastModifiedOn DATETIME ,\s
               createdBy varchar(255) ,\s
               createdOn DATETIME ,\s
-              isActive boolean 
+              isActive boolean\040
             );
             """;
 
@@ -81,14 +81,14 @@ public class DbQueries {
               dob DATETIME ,\s
               managerId int ,\s
               assignedProject int ,\s
-              rankInCompany int ,\s
+              roleInCompany int ,\s
               previousExperience int ,\s
               domainExpertise int ,\s
               lastModifiedBy varchar(255) ,\s
               lastModifiedOn DATETIME ,\s
               createdBy varchar(255) ,\s
               createdOn DATETIME ,\s
-              isActive boolean 
+              isActive boolean\040
             );
             """;
 
@@ -132,18 +132,54 @@ public class DbQueries {
             "lastModifiedBy , lastModifiedOn , createdBy , createdOn , isActive) VALUES (?,?,?,?,?,?,?);";
 
     static final String INSERT_INTO_EMPLOYEE = "INSERT INTO employee  (name , joiningDate , email , " +
-            "mobile , dob , managerId ,assignedProject ,rankInCompany ,previousExperience ,domainExpertise ," +
+            "mobile , dob , managerId ,assignedProject ,roleInCompany ,previousExperience ,domainExpertise ," +
             "lastModifiedBy , lastModifiedOn , createdBy , createdOn , isActive)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
     static final String INSERT_INTO_CLIENT = "INSERT INTO client  (firstName , lastName , companyName , " +
             "location , companyEmail , mobile , email , lastModifiedBy , lastModifiedOn , createdBy , " +
             "createdOn , isActive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
 
-    static final String INSERT_INTO_MEMBER = " INSERT INTO member  (uniqueId ,PK projectId ,employeeId ," +
-            "employeeRole ,isActive) VALUES (?,?,?,?,?);";
+    static final String INSERT_INTO_MEMBER = " INSERT INTO member  (projectId ,employeeId ," +
+            "employeeRole ,isActive) VALUES (?,?,?,?);";
 
     static final String INSERT_INTO_MILESTONE = "INSERT INTO milestone  (mileNumber ,projectId ,title , " +
             "description , timeInHours ,status ,assignedToEmpId ,completedByEmpId ,lastModifiedBy , " +
             "lastModifiedOn , createdBy , createdOn , isActive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
+    static final String OVERWRITE_PROJECT = "INSERT INTO project (uniqueId,title, name, description, deadline , " +
+            "finishedOn, beforeDeadline, numOfEmpRequired, numOfEmpWorking  , managerId , " +
+            "minimumExperience , numOfMinExp , totalMilestones , domainExpertId , clientId , " +
+            "lastModifiedBy , lastModifiedOn ,createdBy ,createdOn ,isActive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
+    static final String OVERWRITE_AUTHENTICATE = "INSERT INTO authenticate  (uniqueId,userEmail , userPassword , " +
+            "lastModifiedBy , lastModifiedOn , createdBy , createdOn , isActive) VALUES (?,?,?,?,?,?,?,?);";
+
+    static final String OVERWRITE_EMPLOYEE = "INSERT INTO employee  (uniqueId,name , joiningDate , email , " +
+            "mobile , dob , managerId ,assignedProject ,roleInCompany ,previousExperience ,domainExpertise ," +
+            "lastModifiedBy , lastModifiedOn , createdBy , createdOn , isActive)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
+    static final String OVERWRITE_CLIENT = "INSERT INTO client  (uniqueId,firstName , lastName , companyName , " +
+            "location , companyEmail , mobile , email , lastModifiedBy , lastModifiedOn , createdBy , " +
+            "createdOn , isActive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
+    static final String OVERWRITE_MEMBER = " INSERT INTO member  (uniqueId ,PK projectId ,employeeId ," +
+            "employeeRole ,isActive) VALUES (?,?,?,?,?);";
+
+    static final String OVERWRITE_MILESTONE = "INSERT INTO milestone  (uniqueId, mileNumber ,projectId ,title , " +
+            "description , timeInHours ,status ,assignedToEmpId ,completedByEmpId ,lastModifiedBy , " +
+            "lastModifiedOn , createdBy , createdOn , isActive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
+    static final String QUERY_AUTHENTICATE = "select * from authenticate;";
+    static final String QUERY_CLIENT = "select * from client;";
+    static final String QUERY_EMPLOYEE = "select * from employee;";
+    static final String QUERY_MEMBER = "select * from member;";
+    static final String QUERY_MILESTONE = "select * from milestone;";
+    static final String QUERY_PROJECT = "select * from project;";
+
+    static final String DELETE_ROW_AUTHENTICATE = "delete from authenticate where uniqueId = ?;";
+    static final String DELETE_ROW_CLIENT = "delete from client where uniqueId = ?;";
+    static final String DELETE_ROW_EMPLOYEE = "delete from employee where uniqueId = ?;";
+    static final String DELETE_ROW_MEMBER = "delete from member where uniqueId = ?;";
+    static final String DELETE_ROW_MILESTONE = "delete from milestone where uniqueId = ?;";
+    static final String DELETE_ROW_PROJECT = "delete from project where uniqueId = ?;";
 }
