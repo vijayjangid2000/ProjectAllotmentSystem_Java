@@ -79,7 +79,6 @@ public class DatabaseHelper {
 
     public static void addNewRowToAuthenticateTable(Authenticate authenticate, boolean doOverwrite) {
 
-
         String insertAuthenticate;
         if (doOverwrite) insertAuthenticate = DbQueries.OVERWRITE_AUTHENTICATE;
         else insertAuthenticate = DbQueries.INSERT_INTO_AUTHENTICATE;
@@ -267,6 +266,116 @@ public class DatabaseHelper {
         }
 
         System.out.println("Query: " + insertProject);
+    }
+
+    /* Deleting queries for tables */
+
+    public static boolean deleteFromAuthenticate(int uniqueId) {
+
+        String delete = DbQueries.DELETE_ROW_AUTHENTICATE;
+
+        try {
+            PreparedStatement preStmt = connection.prepareStatement(delete);
+            int c = 1;
+            preStmt.setInt(c, uniqueId);
+            preStmt.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Query: " + delete);
+        return false;
+    }
+
+    public static boolean deleteFromClient(int uniqueId) {
+
+        String delete = DbQueries.DELETE_ROW_CLIENT;
+
+        try {
+            PreparedStatement preStmt = connection.prepareStatement(delete);
+            int c = 1;
+            preStmt.setInt(c, uniqueId);
+            preStmt.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Query: " + delete);
+        return false;
+    }
+
+    public static boolean deleteFromEmployee(int uniqueId) {
+
+        String delete = DbQueries.DELETE_ROW_EMPLOYEE;
+
+        try {
+            PreparedStatement preStmt = connection.prepareStatement(delete);
+            int c = 1;
+            preStmt.setInt(c, uniqueId);
+            preStmt.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Query: " + delete);
+        return false;
+    }
+
+    public static boolean deleteFromMember(int uniqueId) {
+
+        String delete = DbQueries.DELETE_ROW_MEMBER;
+
+        try {
+            PreparedStatement preStmt = connection.prepareStatement(delete);
+            int c = 1;
+            preStmt.setInt(c, uniqueId);
+            preStmt.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Query: " + delete);
+        return false;
+    }
+
+    public static boolean deleteFromMilestone(int uniqueId) {
+
+        String delete = DbQueries.DELETE_ROW_MILESTONE;
+
+        try {
+            PreparedStatement preStmt = connection.prepareStatement(delete);
+            int c = 1;
+            preStmt.setInt(c, uniqueId);
+            preStmt.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Query: " + delete);
+        return false;
+    }
+
+    public static boolean deleteFromProject(int uniqueId) {
+
+        String delete = DbQueries.DELETE_ROW_PROJECT;
+
+        try {
+            PreparedStatement preStmt = connection.prepareStatement(delete);
+            int c = 1;
+            preStmt.setInt(c, uniqueId);
+            preStmt.execute();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Query: " + delete);
+        return false;
     }
 
     /* To convert the data returned from mysql query into Objects of class belonging to particular table */
