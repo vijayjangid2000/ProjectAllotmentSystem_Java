@@ -1,8 +1,11 @@
 package com.example.project_allotment_system;
 
+import dbHelper.DatabaseHelper;
+import dbHelper.DbQueries;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -10,8 +13,15 @@ import java.io.IOException;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        DatabaseHelper.getInstance();
+        DbQueries.getInstance();
+
+
+        String first = "hello-view.fxml";
+        String login = "loginPage.fxml";
+        String employee = "AddEmployee.fxml";
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(employee));
+        Scene scene = new Scene(fxmlLoader.load(), 500, 500);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();

@@ -5,8 +5,10 @@ import java.util.ArrayList;
 
 public class DatabaseHelper {
 
+    boolean printStackTrace = true, printMessage = true;
+
     private static DatabaseHelper databaseHelper;
-    private static Connection connection;
+    public static Connection connection;
 
     private DatabaseHelper() {
         try {
@@ -18,40 +20,19 @@ public class DatabaseHelper {
             System.out.println("DB Connected.");
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
     }
 
-    public DatabaseHelper getInstance() {
+    public static DatabaseHelper getInstance() {
         if (databaseHelper == null) databaseHelper = new DatabaseHelper();
         return databaseHelper;
     }
 
-    public static void main(String[] args) {
-        Date date = new Date(System.currentTimeMillis());
-
-        Project project = new Project("apple", "prjectName", "description", date.toString(), date.toString(),
-                true, 5, 5,
-                1, 4, 1, 1, 1,
-                1, "vijay", date.toString(), "vijay", date.toString(), true
-        );
-        try {
-            connection = DriverManager.getConnection(DbQueries.DB_URL,
-                    DbQueries.DB_USER, DbQueries.DB_PASSWORD);
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("USE " + DbQueries.DB_NAME);
-            statement.close();
-            System.out.println("DB Connected.");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        addNewRowToProjectTable(project, false);
-    }
-
     /* Resetting application and Database */
 
-    public static void createAllTablesAndDb() {
+    public void createAllTablesAndDb() {
 
         try (Connection conn = DriverManager.getConnection(DbQueries.DB_URL,
                 DbQueries.DB_USER, DbQueries.DB_PASSWORD);
@@ -70,14 +51,15 @@ public class DatabaseHelper {
             System.out.println("DB and all tables created successfully");
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
     }
 
     /* To add new row to tables, if enabled overwrite then unique id is also required in the objects. */
 
-    public static void addNewRowToAuthenticateTable(Authenticate authenticate, boolean doOverwrite) {
+    public void addNewRowToAuthenticateTable(Authenticate authenticate, boolean doOverwrite) {
 
         String insertAuthenticate;
         if (doOverwrite) insertAuthenticate = DbQueries.OVERWRITE_AUTHENTICATE;
@@ -90,19 +72,21 @@ public class DatabaseHelper {
             preStmt.setString(c++, authenticate.getPassword());
 
             preStmt.setString(c++, authenticate.getLastModifiedBy());
-            preStmt.setDate(c++, Date.valueOf(authenticate.getLastModifiedOn()));
+            preStmt.setString(c++, authenticate.getLastModifiedOn());
             preStmt.setString(c++, authenticate.getCreatedBy());
-            preStmt.setDate(c++, Date.valueOf(authenticate.getCreatedOn()));
+            preStmt.setString(c++, authenticate.getCreatedOn());
             preStmt.setBoolean(c, authenticate.isActive());
             preStmt.execute();
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         System.out.println("Query: " + insertAuthenticate);
     }
 
-    public static void addNewRowToClientTable(Client client, boolean doOverwrite) {
+    public void addNewRowToClientTable(Client client, boolean doOverwrite) {
 
         String insertClient;
         if (doOverwrite) insertClient = DbQueries.OVERWRITE_CLIENT;
@@ -120,19 +104,20 @@ public class DatabaseHelper {
             preStmt.setString(c++, client.getEmail());
 
             preStmt.setString(c++, client.getLastModifiedBy());
-            preStmt.setDate(c++, Date.valueOf(client.getLastModifiedOn()));
+            preStmt.setString(c++, client.getLastModifiedOn());
             preStmt.setString(c++, client.getCreatedBy());
-            preStmt.setDate(c++, Date.valueOf(client.getCreatedOn()));
+            preStmt.setString(c++, client.getCreatedOn());
             preStmt.setBoolean(c, client.isActive());
             preStmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         System.out.println("Query: " + insertClient);
     }
 
-    public static void addNewRowToEmployeeTable(Employee employee, boolean doOverwrite) {
+    public void addNewRowToEmployeeTable(Employee employee, boolean doOverwrite) {
         String insertEmployee;
         if (doOverwrite) insertEmployee = DbQueries.OVERWRITE_EMPLOYEE;
         else insertEmployee = DbQueries.INSERT_INTO_EMPLOYEE;
@@ -143,11 +128,11 @@ public class DatabaseHelper {
 
             preStmt.setString(c++, employee.getName());
 
-            preStmt.setDate(c++, Date.valueOf(employee.getJoiningDate()));
+            preStmt.setString(c++, employee.getJoiningDate());
             preStmt.setString(c++, employee.getEmail());
             preStmt.setString(c++, employee.getMobile());
 
-            preStmt.setDate(c++, Date.valueOf(employee.getDateOfBirth()));
+            preStmt.setString(c++, employee.getDateOfBirth());
 
             preStmt.setInt(c++, employee.getManagerId());
             preStmt.setInt(c++, employee.getNoOfAssignedProject());
@@ -156,20 +141,21 @@ public class DatabaseHelper {
             preStmt.setInt(c++, employee.getDomainExpertiseId());
 
             preStmt.setString(c++, employee.getLastModifiedBy());
-            preStmt.setDate(c++, Date.valueOf(employee.getLastModifiedOn()));
+            preStmt.setString(c++, employee.getLastModifiedOn());
             preStmt.setString(c++, employee.getCreatedBy());
-            preStmt.setDate(c++, Date.valueOf(employee.getCreatedOn()));
+            preStmt.setString(c++, employee.getCreatedOn());
             preStmt.setBoolean(c, employee.isActive());
 
             preStmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         System.out.println("Query: " + insertEmployee);
     }
 
-    public static void addNewRowToMemberTable(Member member, boolean doOverwrite) {
+    public void addNewRowToMemberTable(Member member, boolean doOverwrite) {
 
 
         String insertMember;
@@ -185,14 +171,15 @@ public class DatabaseHelper {
             preStmt.setBoolean(c, member.isActive());
             preStmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         System.out.println("Query: " + insertMember);
 
     }
 
-    public static void addNewRowToMilestoneTable(Milestone milestone, boolean doOverwrite) {
+    public void addNewRowToMilestoneTable(Milestone milestone, boolean doOverwrite) {
 
         String insertMileStone;
         if (doOverwrite) insertMileStone = DbQueries.OVERWRITE_MILESTONE;
@@ -213,13 +200,14 @@ public class DatabaseHelper {
             preStmt.setInt(c++, milestone.getCompletedByEmployeeId());
 
             preStmt.setString(c++, milestone.getLastModifiedBy());
-            preStmt.setDate(c++, Date.valueOf(milestone.getLastModifiedOn()));
+            preStmt.setString(c++, milestone.getLastModifiedOn());
             preStmt.setString(c++, milestone.getCreatedBy());
-            preStmt.setDate(c++, Date.valueOf(milestone.getCreatedOn()));
+            preStmt.setString(c++, milestone.getCreatedOn());
             preStmt.setBoolean(c, milestone.isActive());
             preStmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         System.out.println("Query: " + insertMileStone);
@@ -227,7 +215,7 @@ public class DatabaseHelper {
 
     }
 
-    public static void addNewRowToProjectTable(Project project, boolean doOverwrite) {
+    public void addNewRowToProjectTable(Project project, boolean doOverwrite) {
 
         String insertProject;
         if (doOverwrite) insertProject = DbQueries.OVERWRITE_PROJECT;
@@ -241,8 +229,8 @@ public class DatabaseHelper {
             preStmt.setString(c++, project.getName());
             preStmt.setString(c++, project.getDescription());
 
-            preStmt.setDate(c++, Date.valueOf(project.getDeadLine()));
-            preStmt.setDate(c++, Date.valueOf(project.getFinishedOn()));
+            preStmt.setString(c++, project.getDeadLine());
+            preStmt.setString(c++, project.getFinishedOn());
             preStmt.setBoolean(c++, project.isBeforeDeadline());
 
             preStmt.setInt(c++, project.getNumberOfEmployeeRequired());
@@ -255,14 +243,15 @@ public class DatabaseHelper {
             preStmt.setInt(c++, project.getClientId());
 
             preStmt.setString(c++, project.getLastModifiedBy());
-            preStmt.setDate(c++, Date.valueOf(project.getLastModifiedOn()));
+            preStmt.setString(c++, project.getLastModifiedOn());
             preStmt.setString(c++, project.getCreatedBy());
-            preStmt.setDate(c++, Date.valueOf(project.getCreatedOn()));
+            preStmt.setString(c++, project.getCreatedOn());
             preStmt.setBoolean(c, project.isActive());
 
             preStmt.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         System.out.println("Query: " + insertProject);
@@ -270,7 +259,7 @@ public class DatabaseHelper {
 
     /* Deleting queries for tables */
 
-    public static boolean deleteFromAuthenticate(int uniqueId) {
+    public boolean deleteFromAuthenticate(int uniqueId) {
 
         String delete = DbQueries.DELETE_ROW_AUTHENTICATE;
 
@@ -281,14 +270,15 @@ public class DatabaseHelper {
             preStmt.execute();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         System.out.println("Query: " + delete);
         return false;
     }
 
-    public static boolean deleteFromClient(int uniqueId) {
+    public boolean deleteFromClient(int uniqueId) {
 
         String delete = DbQueries.DELETE_ROW_CLIENT;
 
@@ -299,14 +289,15 @@ public class DatabaseHelper {
             preStmt.execute();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         System.out.println("Query: " + delete);
         return false;
     }
 
-    public static boolean deleteFromEmployee(int uniqueId) {
+    public boolean deleteFromEmployee(int uniqueId) {
 
         String delete = DbQueries.DELETE_ROW_EMPLOYEE;
 
@@ -317,14 +308,15 @@ public class DatabaseHelper {
             preStmt.execute();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         System.out.println("Query: " + delete);
         return false;
     }
 
-    public static boolean deleteFromMember(int uniqueId) {
+    public boolean deleteFromMember(int uniqueId) {
 
         String delete = DbQueries.DELETE_ROW_MEMBER;
 
@@ -335,14 +327,15 @@ public class DatabaseHelper {
             preStmt.execute();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         System.out.println("Query: " + delete);
         return false;
     }
 
-    public static boolean deleteFromMilestone(int uniqueId) {
+    public boolean deleteFromMilestone(int uniqueId) {
 
         String delete = DbQueries.DELETE_ROW_MILESTONE;
 
@@ -353,14 +346,15 @@ public class DatabaseHelper {
             preStmt.execute();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         System.out.println("Query: " + delete);
         return false;
     }
 
-    public static boolean deleteFromProject(int uniqueId) {
+    public boolean deleteFromProject(int uniqueId) {
 
         String delete = DbQueries.DELETE_ROW_PROJECT;
 
@@ -371,7 +365,8 @@ public class DatabaseHelper {
             preStmt.execute();
             return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         System.out.println("Query: " + delete);
@@ -380,85 +375,97 @@ public class DatabaseHelper {
 
     /* To convert the data returned from mysql query into Objects of class belonging to particular table */
 
-    public static ArrayList<Authenticate> queryAuthenticate() {
+    public ArrayList<Authenticate> queryAuthenticate(String customQuery) {
         try {
+            if (customQuery == null) customQuery = DbQueries.QUERY_AUTHENTICATE;
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(DbQueries.QUERY_AUTHENTICATE);
-            statement.close();
+            ResultSet resultSet = statement.executeQuery(customQuery);
+            //statement.close();
             return convertResultSetToAuthenticate(resultSet);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         return null;
     }
 
-    public static ArrayList<Client> queryClient() {
+    public ArrayList<Client> queryClient(String customQuery) {
         try {
+            if (customQuery == null) customQuery = DbQueries.QUERY_CLIENT;
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(DbQueries.QUERY_CLIENT);
-            statement.close();
+            ResultSet resultSet = statement.executeQuery(customQuery);
+            //statement.close();
             return convertResultSetToClient(resultSet);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         return null;
     }
 
-    public static ArrayList<Employee> queryEmployee() {
+    public ArrayList<Employee> queryEmployee(String customQuery) {
         try {
+            if (customQuery == null) customQuery = DbQueries.QUERY_EMPLOYEE;
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(DbQueries.QUERY_EMPLOYEE);
-            statement.close();
+            ResultSet resultSet = statement.executeQuery(customQuery);
+            //statement.close();
             return convertResultSetToEmployee(resultSet);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         return null;
     }
 
-    public static ArrayList<Member> queryMember() {
+    public ArrayList<Member> queryMember(String customQuery) {
         try {
+            if (customQuery == null) customQuery = DbQueries.QUERY_MEMBER;
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(DbQueries.QUERY_MEMBER);
-            statement.close();
+            ResultSet resultSet = statement.executeQuery(customQuery);
+            //statement.close();
             return convertResultSetToMember(resultSet);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         return null;
     }
 
-    public static ArrayList<Milestone> queryMilestone() {
+    public ArrayList<Milestone> queryMilestone(String customQuery) {
         try {
+            if (customQuery == null) customQuery = DbQueries.QUERY_MILESTONE;
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(DbQueries.QUERY_MILESTONE);
-            statement.close();
+            ResultSet resultSet = statement.executeQuery(customQuery);
+            //statement.close();
             return convertResultSetToMilestone(resultSet);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         return null;
     }
 
-    public static ArrayList<Project> queryProject() {
+    public ArrayList<Project> queryProject(String customQuery) {
         try {
+            if (customQuery == null) customQuery = DbQueries.QUERY_PROJECT;
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(DbQueries.QUERY_PROJECT);
-            statement.close();
+            ResultSet resultSet = statement.executeQuery(customQuery);
+            //statement.close();
             return convertResultSetToProject(resultSet);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         return null;
@@ -466,7 +473,8 @@ public class DatabaseHelper {
 
     /* Converts resultSet object to ArrayList of required Object */
 
-    private static ArrayList<Authenticate> convertResultSetToAuthenticate(ResultSet resultSet) {
+    private ArrayList<Authenticate> convertResultSetToAuthenticate(ResultSet resultSet) {
+
         ArrayList<Authenticate> list = new ArrayList<>();
 
         try (resultSet) {
@@ -479,22 +487,25 @@ public class DatabaseHelper {
                 authenticate.setPassword(resultSet.getString(c++));
 
                 authenticate.setLastModifiedBy(resultSet.getString(c++));
-                authenticate.setLastModifiedOn(resultSet.getDate(c++).toString());
+                authenticate.setLastModifiedOn(resultSet.getString(c++).toString());
                 authenticate.setCreatedBy(resultSet.getString(c++));
-                authenticate.setCreatedOn(resultSet.getDate(c++).toString());
+                authenticate.setCreatedOn(resultSet.getString(c++).toString());
                 authenticate.setActive(resultSet.getBoolean(c));
 
                 list.add(authenticate);
             }
 
+
+            resultSet.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         return list;
     }
 
-    private static ArrayList<Client> convertResultSetToClient(ResultSet resultSet) {
+    private ArrayList<Client> convertResultSetToClient(ResultSet resultSet) {
         ArrayList<Client> list = new ArrayList<>();
 
         try (resultSet) {
@@ -513,22 +524,23 @@ public class DatabaseHelper {
                 client.setEmail(resultSet.getString(c++));
 
                 client.setLastModifiedBy(resultSet.getString(c++));
-                client.setLastModifiedOn(resultSet.getDate(c++).toString());
+                client.setLastModifiedOn(resultSet.getString(c++).toString());
                 client.setCreatedBy(resultSet.getString(c++));
-                client.setCreatedOn(resultSet.getDate(c++).toString());
+                client.setCreatedOn(resultSet.getString(c++).toString());
                 client.setActive(resultSet.getBoolean(c));
 
                 list.add(client);
             }
-
+            resultSet.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         return list;
     }
 
-    private static ArrayList<Member> convertResultSetToMember(ResultSet resultSet) {
+    private ArrayList<Member> convertResultSetToMember(ResultSet resultSet) {
         ArrayList<Member> list = new ArrayList<>();
 
         try (resultSet) {
@@ -545,15 +557,16 @@ public class DatabaseHelper {
 
                 list.add(member);
             }
-
+            resultSet.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         return list;
     }
 
-    private static ArrayList<Employee> convertResultSetToEmployee(ResultSet resultSet) {
+    private ArrayList<Employee> convertResultSetToEmployee(ResultSet resultSet) {
         ArrayList<Employee> list = new ArrayList<>();
 
         try (resultSet) {
@@ -563,11 +576,11 @@ public class DatabaseHelper {
                 int c = 1;
                 employee.setUniqueId(resultSet.getInt(c++));
                 employee.setName(resultSet.getString(c++));
-                employee.setJoiningDate(resultSet.getDate(c++).toString());
+                employee.setJoiningDate(resultSet.getString(c++).toString());
                 employee.setEmail(resultSet.getString(c++));
 
                 employee.setMobile(resultSet.getString(c++));
-                employee.setDateOfBirth(resultSet.getDate(c++).toString());
+                employee.setDateOfBirth(resultSet.getString(c++).toString());
                 employee.setManagerId(resultSet.getInt(c++));
 
                 employee.setNoOfAssignedProject(resultSet.getInt(c++));
@@ -576,22 +589,23 @@ public class DatabaseHelper {
                 employee.setDomainExpertiseId(resultSet.getInt(c++));
 
                 employee.setLastModifiedBy(resultSet.getString(c++));
-                employee.setLastModifiedOn(resultSet.getDate(c++).toString());
+                employee.setLastModifiedOn(resultSet.getString(c++).toString());
                 employee.setCreatedBy(resultSet.getString(c++));
-                employee.setCreatedOn(resultSet.getDate(c++).toString());
+                employee.setCreatedOn(resultSet.getString(c++).toString());
                 employee.setActive(resultSet.getBoolean(c));
 
                 list.add(employee);
             }
-
+            resultSet.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         return list;
     }
 
-    private static ArrayList<Milestone> convertResultSetToMilestone(ResultSet resultSet) {
+    private ArrayList<Milestone> convertResultSetToMilestone(ResultSet resultSet) {
         ArrayList<Milestone> list = new ArrayList<>();
 
         try (resultSet) {
@@ -610,22 +624,23 @@ public class DatabaseHelper {
                 milestone.setCompletedByEmployeeId(resultSet.getInt(c++));
 
                 milestone.setLastModifiedBy(resultSet.getString(c++));
-                milestone.setLastModifiedOn(resultSet.getDate(c++).toString());
+                milestone.setLastModifiedOn(resultSet.getString(c++).toString());
                 milestone.setCreatedBy(resultSet.getString(c++));
-                milestone.setCreatedOn(resultSet.getDate(c++).toString());
+                milestone.setCreatedOn(resultSet.getString(c++).toString());
                 milestone.setActive(resultSet.getBoolean(c));
 
                 list.add(milestone);
             }
-
+            resultSet.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         return list;
     }
 
-    private static ArrayList<Project> convertResultSetToProject(ResultSet resultSet) {
+    private ArrayList<Project> convertResultSetToProject(ResultSet resultSet) {
 
         ArrayList<Project> list = new ArrayList<>();
 
@@ -639,8 +654,8 @@ public class DatabaseHelper {
                 project.setName(resultSet.getString(c++));
                 project.setDescription(resultSet.getString(c++));
 
-                project.setDeadLine(resultSet.getDate(c++).toString());
-                project.setFinishedOn(resultSet.getDate(c++).toString());
+                project.setDeadLine(resultSet.getString(c++).toString());
+                project.setFinishedOn(resultSet.getString(c++).toString());
                 project.setBeforeDeadline(resultSet.getBoolean(c++));
 
                 project.setNumberOfEmployeeRequired(resultSet.getInt(c++));
@@ -653,20 +668,109 @@ public class DatabaseHelper {
                 project.setClientId(resultSet.getInt(c++));
 
                 project.setLastModifiedBy(resultSet.getString(c++));
-                project.setLastModifiedOn(resultSet.getDate(c++).toString());
+                project.setLastModifiedOn(resultSet.getString(c++).toString());
                 project.setCreatedBy(resultSet.getString(c++));
-                project.setCreatedOn(resultSet.getDate(c++).toString());
+                project.setCreatedOn(resultSet.getString(c++).toString());
                 project.setActive(resultSet.getBoolean(c));
 
                 list.add(project);
             }
-
+            resultSet.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
         }
 
         return list;
     }
 
+    /* Specific queries that needs parameters */
 
+    public ArrayList<Authenticate> queryAuthenticate(PreparedStatement statement) {
+        try {
+            ResultSet resultSet = statement.executeQuery();
+            ////statement.close();
+            return convertResultSetToAuthenticate(resultSet);
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public ArrayList<Client> queryClient(PreparedStatement statement) {
+        try {
+
+            ResultSet resultSet = statement.executeQuery();
+            ////statement.close();
+            return convertResultSetToClient(resultSet);
+
+        } catch (Exception e) {
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public ArrayList<Employee> queryEmployee(PreparedStatement statement) {
+        try {
+
+            ResultSet resultSet = statement.executeQuery();
+            ////statement.close();
+            return convertResultSetToEmployee(resultSet);
+
+        } catch (Exception e) {
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public ArrayList<Member> queryMember(PreparedStatement statement) {
+        try {
+
+            ResultSet resultSet = statement.executeQuery();
+            ////statement.close();
+            return convertResultSetToMember(resultSet);
+
+        } catch (Exception e) {
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public ArrayList<Milestone> queryMilestone(PreparedStatement statement) {
+        try {
+
+            ResultSet resultSet = statement.executeQuery();
+            ////statement.close();
+            return convertResultSetToMilestone(resultSet);
+
+        } catch (Exception e) {
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public ArrayList<Project> queryProject(PreparedStatement statement) {
+        try {
+
+            ResultSet resultSet = statement.executeQuery();
+            //statement.close();
+            return convertResultSetToProject(resultSet);
+
+        } catch (Exception e) {
+            if (printStackTrace) e.printStackTrace();
+            if (printMessage) System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
 }

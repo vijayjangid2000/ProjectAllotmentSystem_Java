@@ -2,14 +2,24 @@ package dbHelper;
 
 public class Authenticate {
 
-  private  int uniqueId;
-  private  String userEmail;
-  private  String password;
- private   String lastModifiedBy;
- private   String lastModifiedOn;
-private    String createdBy;
- private   String createdOn;
- private   boolean isActive;
+    private int uniqueId;
+    private String userEmail;
+    private String password;
+    private String lastModifiedBy;
+    private String lastModifiedOn;
+    private String createdBy;
+    private String createdOn;
+    private boolean isActive;
+
+    public static Employee loggedInEmployee;
+
+    public Employee getLoggedInEmployee() {
+        return loggedInEmployee;
+    }
+
+    public void setLoggedInEmployee(Employee loggedInEmployee) {
+        this.loggedInEmployee = loggedInEmployee;
+    }
 
     public int getUniqueId() {
         return uniqueId;
@@ -73,5 +83,19 @@ private    String createdBy;
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    @Override
+    public String toString() {
+        return "Authenticate{" +
+                "uniqueId=" + uniqueId +
+                ", userEmail='" + userEmail + '\'' +
+                ", password='" + password + '\'' +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedOn='" + lastModifiedOn + '\'' +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdOn='" + createdOn + '\'' +
+                ", isActive=" + isActive +
+                '}';
     }
 }

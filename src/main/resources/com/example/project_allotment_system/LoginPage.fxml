@@ -6,15 +6,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.project_allotment_system.LoginPage">
-    <TextField id="textView_email" layoutX="241.0" layoutY="135.0" promptText="Enter email"/>
-    <Text layoutX="171.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username"/>
-    <Text layoutX="173.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password"/>
-    <Text id="textView_message" layoutX="232.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0"
-          text="Welcome to Manage App"/>
-    <Button id="btn_submit" layoutX="339.0" layoutY="213.0" mnemonicParsing="false" text="Submit"/>
-    <Button id="btn_forget" layoutX="244.0" layoutY="213.0" mnemonicParsing="false" text="Forget"/>
-    <PasswordField id="textView_password" layoutX="241.0" layoutY="174.0" promptText="Enter Password"/>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project_allotment_system.LoginPage">
+    <TextField  fx:id="tvInputUsername" layoutX="241.0" layoutY="135.0" promptText="Enter email" />
+    <PasswordField fx:id="tvInputPassword" layoutX="241.0" layoutY="174.0" promptText="Enter Password" />
+    <Text fx:id="tvUserName" layoutX="171.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
+    <Text fx:id="tvPassword" layoutX="173.0" layoutY="191.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" />
+    <Text fx:id="tvMessageView" layoutX="232.0" layoutY="265.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Manage App" />
+    <Button fx:id="btnSubmit" layoutX="339.0" layoutY="213.0" mnemonicParsing="false" text="Submit"   />
+    <Button fx:id="btnForget" layoutX="244.0" layoutY="213.0" mnemonicParsing="false" text="Forget" />
 </AnchorPane>

@@ -1,11 +1,35 @@
 package dbHelper;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class DbQueries {
+
+    private static DbQueries dbQueries;
+    private static Connection connection;
+
+    private DbQueries() {
+    }
+
+    public static DbQueries getInstance() {
+        DatabaseHelper.getInstance();
+        connection = DatabaseHelper.connection;
+        if (dbQueries == null) dbQueries = new DbQueries();
+        return dbQueries;
+    }
 
     static final String DB_NAME = "PAS_DB";
     static final String DB_URL = "jdbc:mysql://localhost/";
     static final String DB_USER = "vijayjangid2000";
     static final String DB_PASSWORD = "vijay84529vijay";
+
+    final int EMP_ADMIN = 1, EMP_MANAGER = 2, EMP_DEVELOPER = 3;
+    final int EMP_IDLE = 1, EMP_HAVE_PROJECTS = 2, EMP_BUSY = 3, EMP_MAX_PROJECT = 5;
+    final int PRO_IDLE = 1, PRO_IN_PROGRESS = 2, PRO_COMPLETED = 3;
+
+    public String[] roleOfEmployee = {"Admin", "Manager", "Developer"};
+    public String[] domainExpertise = {"Banking", "Education", "Database", "Travel", "Finance"};
 
     static final String TABLE_NAME_MILESTONE = "Milestone";
     static final String TABLE_NAME_PROJECT = "Project";
@@ -182,4 +206,44 @@ public class DbQueries {
     static final String DELETE_ROW_MEMBER = "delete from member where uniqueId = ?;";
     static final String DELETE_ROW_MILESTONE = "delete from milestone where uniqueId = ?;";
     static final String DELETE_ROW_PROJECT = "delete from project where uniqueId = ?;";
+
+    public PreparedStatement psCheckAuthenticate(String email, String password) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement
+                    ("SELECT * FROM authenticate where userEmail = ? AND userPassword = ?;");
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return preparedStatement;
+    }
+
+    public PreparedStatement psCheckEmployee(String email) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement
+                    ("Select * from employee where email = ?;");
+            preparedStatement.setString(1, email);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return preparedStatement;
+    }
+
+    public PreparedStatement psGetEmployees(String email) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement
+                    ("Select * from employee where assignedProject < 5 ORDER BY assignedProject;");
+            preparedStatement.setString(1, email);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return preparedStatement;
+    }
 }

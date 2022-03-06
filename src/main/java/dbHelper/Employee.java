@@ -155,4 +155,27 @@ public class Employee {
     public void setActive(boolean active) {
         isActive = active;
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "uniqueId=" + uniqueId +
+                ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", dateOfBirth='" + dateOfBirth + '\'' +
+                ", joiningDate='" + joiningDate + '\'' +
+                ", managerId=" + managerId +
+                ", noOfAssignedProject=" + noOfAssignedProject +
+                ", previousExperienceInYears=" + previousExperienceInYears +
+                ", domainExpertiseId=" + domainExpertiseId +
+                ", roleInCompany=" + roleInCompany +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedOn='" + lastModifiedOn + '\'' +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdOn='" + createdOn + '\'' +
+                ", isActive=" + isActive +
+                '}';
+    }
 }
