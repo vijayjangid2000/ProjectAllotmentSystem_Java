@@ -31,7 +31,6 @@ public class AddEmployee implements Initializable {
         for (int i = 0; i < DbQueries.getInstance().roleOfEmployee.length; i++) {
             choiceBoxRoleInCompany.getItems().add(i, DbQueries.getInstance().roleOfEmployee[i]);
         }
-
     }
 
     void actionSubmitForm() {

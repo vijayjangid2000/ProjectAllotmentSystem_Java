@@ -214,4 +214,30 @@ public class Project {
     public void setActive(boolean active) {
         isActive = active;
     }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "uniqueId=" + uniqueId +
+                ", title='" + title + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", deadLine='" + deadLine + '\'' +
+                ", finishedOn='" + finishedOn + '\'' +
+                ", isBeforeDeadline=" + isBeforeDeadline +
+                ", createdOn='" + createdOn + '\'' +
+                ", numberOfEmployeeRequired=" + numberOfEmployeeRequired +
+                ", numberOfEmployeeWorking=" + numberOfEmployeeWorking +
+                ", managerId=" + managerId +
+                ", minimumExperience=" + minimumExperience +
+                ", numberOfExperienced=" + numberOfExperienced +
+                ", totalMilestones=" + totalMilestones +
+                ", domainExpert=" + domainExpert +
+                ", clientId=" + clientId +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedOn='" + lastModifiedOn + '\'' +
+                ", createdBy='" + createdBy + '\'' +
+                ", isActive=" + isActive +
+                '}';
+    }
 }

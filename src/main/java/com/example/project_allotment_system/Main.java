@@ -20,11 +20,14 @@ public class Main extends Application {
         String first = "hello-view.fxml";
         String login = "loginPage.fxml";
         String employee = "AddEmployee.fxml";
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(employee));
+        String project = "AddProject.fxml";
+        String client = "AddClient.fxml";
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(client));
         Scene scene = new Scene(fxmlLoader.load(), 500, 500);
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+
     }
 
     public static void main(String[] args) {
