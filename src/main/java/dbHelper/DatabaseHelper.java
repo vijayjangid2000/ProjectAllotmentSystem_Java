@@ -75,7 +75,8 @@ public class DatabaseHelper {
             preStmt.setString(c++, authenticate.getLastModifiedOn());
             preStmt.setString(c++, authenticate.getCreatedBy());
             preStmt.setString(c++, authenticate.getCreatedOn());
-            preStmt.setBoolean(c, authenticate.isActive());
+            preStmt.setBoolean(c++, authenticate.isActive());
+            preStmt.setInt(c, authenticate.getUniqueId());
             preStmt.execute();
 
         } catch (SQLException e) {
@@ -107,7 +108,8 @@ public class DatabaseHelper {
             preStmt.setString(c++, client.getLastModifiedOn());
             preStmt.setString(c++, client.getCreatedBy());
             preStmt.setString(c++, client.getCreatedOn());
-            preStmt.setBoolean(c, client.isActive());
+            preStmt.setBoolean(c++, client.isActive());
+            preStmt.setInt(c, client.getUniqueId());
             preStmt.execute();
         } catch (SQLException e) {
             if (printStackTrace) e.printStackTrace();
@@ -144,7 +146,8 @@ public class DatabaseHelper {
             preStmt.setString(c++, employee.getLastModifiedOn());
             preStmt.setString(c++, employee.getCreatedBy());
             preStmt.setString(c++, employee.getCreatedOn());
-            preStmt.setBoolean(c, employee.isActive());
+            preStmt.setBoolean(c++, employee.isActive());
+            preStmt.setInt(c, employee.getUniqueId());
 
             preStmt.execute();
         } catch (SQLException e) {
@@ -168,7 +171,8 @@ public class DatabaseHelper {
             preStmt.setInt(c++, member.getEmployeeId());
             preStmt.setInt(c++, member.getEmployeeRole());
 
-            preStmt.setBoolean(c, member.isActive());
+            preStmt.setBoolean(c++, member.isActive());
+            preStmt.setInt(c, member.getUniqueId());
             preStmt.execute();
         } catch (SQLException e) {
             if (printStackTrace) e.printStackTrace();
@@ -203,7 +207,8 @@ public class DatabaseHelper {
             preStmt.setString(c++, milestone.getLastModifiedOn());
             preStmt.setString(c++, milestone.getCreatedBy());
             preStmt.setString(c++, milestone.getCreatedOn());
-            preStmt.setBoolean(c, milestone.isActive());
+            preStmt.setBoolean(c++, milestone.isActive());
+            preStmt.setInt(c, milestone.getUniqueId());
             preStmt.execute();
         } catch (SQLException e) {
             if (printStackTrace) e.printStackTrace();
@@ -238,7 +243,7 @@ public class DatabaseHelper {
             preStmt.setInt(c++, project.getManagerId());
             preStmt.setInt(c++, project.getMinimumExperience());
             preStmt.setInt(c++, project.getNumberOfExperienced());
-            preStmt.setInt(c++, project.getTotalMilestones());
+            preStmt.setInt(c++, project.getStatus());
             preStmt.setInt(c++, project.getDomainExpert());
             preStmt.setInt(c++, project.getClientId());
 
@@ -246,7 +251,8 @@ public class DatabaseHelper {
             preStmt.setString(c++, project.getLastModifiedOn());
             preStmt.setString(c++, project.getCreatedBy());
             preStmt.setString(c++, project.getCreatedOn());
-            preStmt.setBoolean(c, project.isActive());
+            preStmt.setBoolean(c++, project.isActive());
+            preStmt.setInt(c, project.getUniqueId());
 
             preStmt.execute();
         } catch (SQLException e) {
@@ -663,7 +669,7 @@ public class DatabaseHelper {
                 project.setManagerId(resultSet.getInt(c++));
                 project.setMinimumExperience(resultSet.getInt(c++));
                 project.setNumberOfExperienced(resultSet.getInt(c++));
-                project.setTotalMilestones(resultSet.getInt(c++));
+                project.setStatus(resultSet.getInt(c++));
                 project.setDomainExpert(resultSet.getInt(c++));
                 project.setClientId(resultSet.getInt(c++));
 

@@ -1,6 +1,7 @@
 package com.example.project_allotment_system;
 
 import dbHelper.Client;
+import dbHelper.DatabaseHelper;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
@@ -55,6 +56,8 @@ public class AddClient implements Initializable {
         System.out.println(client);
 
         tvMessage.setText("Successful");
+
+        DatabaseHelper.getInstance().addNewRowToClientTable(client, false);
     }
 
 

@@ -15,7 +15,7 @@ public class Project {
     private int managerId;
     private int minimumExperience;
     private int numberOfExperienced;
-    private int totalMilestones;
+    private int status;
     private int domainExpert;
     private int clientId;
     private String lastModifiedBy;
@@ -45,7 +45,7 @@ public class Project {
         this.managerId = managerId;
         this.minimumExperience = minimumExperience;
         this.numberOfExperienced = numberOfExperienced;
-        this.totalMilestones = totalMilestones;
+        this.status = totalMilestones;
         this.domainExpert = domainExpert;
         this.clientId = clientId;
         this.lastModifiedBy = lastModifiedBy;
@@ -159,12 +159,12 @@ public class Project {
     }
 
 
-    public int getTotalMilestones() {
-        return totalMilestones;
+    public int getStatus() {
+        return status;
     }
 
-    public void setTotalMilestones(int totalMilestones) {
-        this.totalMilestones = totalMilestones;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getDomainExpert() {
@@ -231,7 +231,7 @@ public class Project {
                 ", managerId=" + managerId +
                 ", minimumExperience=" + minimumExperience +
                 ", numberOfExperienced=" + numberOfExperienced +
-                ", totalMilestones=" + totalMilestones +
+                ", totalMilestones=" + status +
                 ", domainExpert=" + domainExpert +
                 ", clientId=" + clientId +
                 ", lastModifiedBy='" + lastModifiedBy + '\'' +

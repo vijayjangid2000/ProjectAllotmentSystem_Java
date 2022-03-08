@@ -24,9 +24,12 @@ public class DbQueries {
     static final String DB_USER = "vijayjangid2000";
     static final String DB_PASSWORD = "vijay84529vijay";
 
-    final int EMP_ADMIN = 1, EMP_MANAGER = 2, EMP_DEVELOPER = 3;
-    final int EMP_IDLE = 1, EMP_HAVE_PROJECTS = 2, EMP_BUSY = 3, EMP_MAX_PROJECT = 5;
-    final int PRO_IDLE = 1, PRO_IN_PROGRESS = 2, PRO_COMPLETED = 3;
+    public final int EMP_ADMIN = 1, EMP_MANAGER = 2, EMP_DEVELOPER = 3;
+    public final int EMP_IDLE = 1, EMP_HAVE_PROJECTS = 2, EMP_BUSY = 3, EMP_MAX_PROJECT = 5;
+    public final int PRO_IDLE = 1, PRO_IN_PROGRESS = 2, PRO_COMPLETED = 3;
+    public final int MILESTONE_IDLE = 1, MILESTONE_IN_PROGRESS = 2, MILESTONE_COMPLETED = 3;
+
+    public final int EMPTY_INT_COLUMN = 0;
 
     public String[] roleOfEmployee = {"Admin", "Manager", "Developer"};
     public String[] domainExpertise = {"Banking", "Education", "Database", "Travel", "Finance"};
@@ -170,28 +173,28 @@ public class DbQueries {
             "description , timeInHours ,status ,assignedToEmpId ,completedByEmpId ,lastModifiedBy , " +
             "lastModifiedOn , createdBy , createdOn , isActive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
-    static final String OVERWRITE_PROJECT = "INSERT INTO project (uniqueId,title, name, description, deadline , " +
-            "finishedOn, beforeDeadline, numOfEmpRequired, numOfEmpWorking  , managerId , " +
-            "minimumExperience , numOfMinExp , totalMilestones , domainExpertId , clientId , " +
-            "lastModifiedBy , lastModifiedOn ,createdBy ,createdOn ,isActive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+    static final String OVERWRITE_PROJECT = "UPDATE project SET title= ?, name= ?, description= ?, deadline = ?, " +
+            "finishedOn= ?, beforeDeadline= ?, numOfEmpRequired= ?, numOfEmpWorking  = ?, managerId = ?, " +
+            "minimumExperience = ?, numOfMinExp = ?, totalMilestones = ?, domainExpertId = ?, clientId = ?, " +
+            "lastModifiedBy = ?, lastModifiedOn = ?,createdBy = ?,createdOn = ?,isActive = ? where uniqueId = ?;";
 
-    static final String OVERWRITE_AUTHENTICATE = "INSERT INTO authenticate  (uniqueId,userEmail , userPassword , " +
-            "lastModifiedBy , lastModifiedOn , createdBy , createdOn , isActive) VALUES (?,?,?,?,?,?,?,?);";
+    static final String OVERWRITE_AUTHENTICATE = "UPDATE authenticate SET userEmail = ?, userPassword = ?, " +
+            "lastModifiedBy = ?, lastModifiedOn = ?, createdBy = ?, createdOn = ?, isActive=? where uniqueId = ?;";
 
-    static final String OVERWRITE_EMPLOYEE = "INSERT INTO employee  (uniqueId,name , joiningDate , email , " +
-            "mobile , dob , managerId ,assignedProject ,roleInCompany ,previousExperience ,domainExpertise ," +
-            "lastModifiedBy , lastModifiedOn , createdBy , createdOn , isActive)  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+    static final String OVERWRITE_EMPLOYEE = "UPDATE employee SET  name = ?, joiningDate = ?, email = ?, " +
+            "mobile = ?, dob = ?, managerId = ?,assignedProject = ?,roleInCompany = ?,previousExperience = ?,domainExpertise = ?," +
+            "lastModifiedBy = ?, lastModifiedOn = ?, createdBy = ?, createdOn = ?, isActive = ? where uniqueId = ?;";
 
-    static final String OVERWRITE_CLIENT = "INSERT INTO client  (uniqueId,firstName , lastName , companyName , " +
-            "location , companyEmail , mobile , email , lastModifiedBy , lastModifiedOn , createdBy , " +
-            "createdOn , isActive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+    static final String OVERWRITE_CLIENT = "UPDATE client SET  firstName = ?, lastName = ?, companyName = ?, " +
+            "location = ?, companyEmail = ?, mobile = ?, email = ?, lastModifiedBy = ?, lastModifiedOn = ?, createdBy = ?, " +
+            "createdOn = ?, isActive=? where uniqueId = ?;";
 
-    static final String OVERWRITE_MEMBER = " INSERT INTO member  (uniqueId ,PK projectId ,employeeId ," +
-            "employeeRole ,isActive) VALUES (?,?,?,?,?);";
+    static final String OVERWRITE_MEMBER = " UPDATE member SET projectId = ?,employeeId = ?," +
+            "employeeRole = ?,isActive =? where uniqueId = ?;";
 
-    static final String OVERWRITE_MILESTONE = "INSERT INTO milestone  (uniqueId, mileNumber ,projectId ,title , " +
-            "description , timeInHours ,status ,assignedToEmpId ,completedByEmpId ,lastModifiedBy , " +
-            "lastModifiedOn , createdBy , createdOn , isActive) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+    static final String OVERWRITE_MILESTONE = "UPDATE milestone SET  uniqueId= ?, mileNumber = ?,projectId = ?,title = ?, " +
+            "description = ?, timeInHours = ?,status = ?,assignedToEmpId = ?,completedByEmpId = ?,lastModifiedBy = ?, " +
+            "lastModifiedOn = ?, createdBy = ?, createdOn = ?, isActive = ? where uniqueId = ?;";
 
     static final String QUERY_AUTHENTICATE = "select * from authenticate;";
     static final String QUERY_CLIENT = "select * from client;";
@@ -246,4 +249,37 @@ public class DbQueries {
 
         return preparedStatement;
     }
+
+    public PreparedStatement psGetProject(int STATUS) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement
+                    ("Select * from project where status = ? AND isActive = ?;");
+            preparedStatement.setInt(1, STATUS);
+            preparedStatement.setBoolean(2, true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return preparedStatement;
+    }
+
+    public PreparedStatement psGetEmployee(int experience, int domain) {
+
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement
+                    ("Select * from employee where domainExpertise = ? AND previousExperience >= ? ORDER BY" +
+                            " assignedProject ASEC;");
+            int c = 1;
+            preparedStatement.setInt(c, domain);
+            preparedStatement.setInt(++c, experience);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return preparedStatement;
+    }
+
 }

@@ -51,7 +51,7 @@ public class LoginPage implements Initializable {
         if (checkAuthenticate(authenticate)) {
             DatabaseHelper databaseHelper = DatabaseHelper.getInstance();
             Authenticate.loggedInEmployee = databaseHelper.queryEmployee
-                    (DbQueries.getInstance().psGetEmployees(authenticate.getUserEmail())).get(0);
+                    (DbQueries.getInstance().psCheckEmployee(authenticate.getUserEmail())).get(0);
             tvMessageView.setText("Welcome " + Authenticate.loggedInEmployee.getName());
         } else {
             tvMessageView.setText("Incorrect Username and Password, \nPlease try again");

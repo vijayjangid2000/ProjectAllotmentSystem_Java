@@ -1,7 +1,8 @@
 package com.example.project_allotment_system;
 
-import dbHelper.Authenticate;
+import dbHelper.DatabaseHelper;
 import dbHelper.DbQueries;
+import dbHelper.Milestone;
 import dbHelper.Project;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -58,7 +59,7 @@ public class AddProject implements Initializable {
         project.setNumberOfEmployeeRequired(Integer.parseInt(tvNumOfEmp.getText()));
         project.setNumberOfExperienced(Integer.parseInt(tvNumOfExperiEmp.getText()));
         project.setMinimumExperience(Integer.parseInt(tvExperienceInYears.getText()));
-        project.setTotalMilestones(Integer.parseInt(tvNumOfMilestone.getText()));
+        project.setStatus(Integer.parseInt(tvNumOfMilestone.getText()));
         project.setDomainExpert(cbDomainId.getSelectionModel().getSelectedIndex() + 1);
         project.setClientId(Integer.parseInt(tvClientId.getText()));
 
@@ -73,6 +74,33 @@ public class AddProject implements Initializable {
 
         System.out.println(project);
         tvMessage.setText("Successful");
+
+        DatabaseHelper.getInstance().addNewRowToProjectTable(project, false);
+
+        int size = project.getNumberOfEmployeeRequired();
+
+        for (int i = 0; i < size; i++) {
+
+            Milestone milestone = new Milestone();
+            milestone.setMileNumber(i + 1);
+            milestone.setProjectId(project.getUniqueId());
+            milestone.setTitle("Milestone " + (i + 1));
+            milestone.setDescription("description of milestone");
+            milestone.setTimeInHours(1);
+            milestone.setStatus(DbQueries.getInstance().MILESTONE_IDLE);
+            milestone.setAssignedToEmployeeId(DbQueries.getInstance().EMPTY_INT_COLUMN);
+            milestone.setCompletedByEmployeeId(DbQueries.getInstance().EMPTY_INT_COLUMN);
+
+            project.setLastModifiedBy(email);
+            project.setLastModifiedOn(String.valueOf(new Date(System.currentTimeMillis())));
+            project.setCreatedBy(email);
+            project.setCreatedOn(String.valueOf(new Date(System.currentTimeMillis())));
+            project.setActive(true);
+
+            DatabaseHelper.getInstance().addNewRowToMilestoneTable(milestone, false);
+        }
+
+
     }
 
 
